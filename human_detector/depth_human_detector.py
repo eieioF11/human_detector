@@ -30,15 +30,10 @@ class HumanDetector(Node):
 		self.resaul_image_pub_ = self.create_publisher(Image,'human_detector/resaul_image', 1)
 		self.image_sub_ = Subscriber(self,Image,'image_raw', qos_profile=ReliabilityPolicy.RELIABLE)
 		self.depth_mage_sub_ = Subscriber(self,Image,'depth', qos_profile=ReliabilityPolicy.RELIABLE)
-		self.image_sub_ = self.create_subscription(Image,'image_raw', self.image_callback, qos_profile=ReliabilityPolicy.RELIABLE)
-		self.depth_sub_ = self.create_subscription(Image,'depth', self.depth_callback, qos_profile=ReliabilityPolicy.RELIABLE)
-		self.timer_ = self.create_timer(0.001, self.timer_callback)
-		# self.time_sync = TimeSynchronizer([self.image_sub_, self.depth_mage_sub_],100)
+		self.time_sync = TimeSynchronizer([self.image_sub_, self.depth_mage_sub_],100)
 		# self.time_sync = ApproximateTimeSynchronizer([self.image_sub_, self.depth_mage_sub_],100,delay)
-		# self.time_sync.registerCallback(self.sync_callback)
+		self.time_sync.registerCallback(self.sync_callback)
 		self.bridge_ = CvBridge()
-		self.image = None
-		self.depth = None
 		self.get_logger().info("end of %s initializing..." % (self.SELFNODE))
 
 	def __del__(self):
@@ -49,13 +44,7 @@ class HumanDetector(Node):
 		self.declare_parameter(name, value)
 		return self.get_parameter(name).get_parameter_value()
 
-	def image_callback(self, image):self.image = image
-	def depth_callback(self, depth):self.depth = depth
-	def timer_callback(self):
-		if self.depth is not None and self.image is not None:
-			self.sync_callback(self.image, self.depth)
-
-	def sync_callback( self, image, depth):
+	def sync_callback(self, image, depth):
 		print("image_callback")
 		raw_image = self.bridge_.imgmsg_to_cv2(image)
 		d_img = self.bridge_.imgmsg_to_cv2(depth)
