@@ -21,7 +21,7 @@ class HumanDetector(Node):
 		super().__init__(self.SELFNODE)
 		self.get_logger().info("%s initializing..." % (self.SELFNODE))
 		# モデルの読み込み
-		model_name = self.param("model_name", 'yolov8m-seg.pt').string_value # yolov8n.pt, yolov8x-seg.pt ,yolov8x-pose.pt
+		model_name = self.param("model_name", 'yolov8x-seg.pt').string_value # yolov8n.pt, yolov8x-seg.pt ,yolov8x-pose.pt
 		self.model = YOLO(model_name)
 		# self.model.export(format="engine")
 		# self.tensorrt_model = YOLO(model_name.replace('.pt', '.engine'))
