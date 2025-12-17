@@ -1,6 +1,5 @@
-# human_detector
-yolo v8を使った人検出ノード
+# tdmpc_social_navigation
 
 ```bash
-ros2 launch human_detector human_detector.launch.py
+ros2 launch tdmpc_social_navigation tdmpc_social_navigation.launch.py
 ```

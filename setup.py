@@ -2,7 +2,7 @@ import os
 from glob import glob
 from setuptools import find_packages, setup
 
-package_name = 'human_detector'
+package_name = 'tdmpc_social_navigation'
 
 setup(
     name=package_name,
@@ -13,19 +13,19 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name), glob('launch/*.launch.py')),
-        (os.path.join('share', package_name), glob('rviz/*.rviz')),
+        (os.path.join('share', package_name), glob('config/*.yaml')),
+        (os.path.join('share', package_name), glob('config/*.yml')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='aisl',
-    maintainer_email='nishizawa@aisl.cs.tut.ac.jp',
+    maintainer='f11',
+    maintainer_email='eieioeiji0501@gmail.com',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'human_detector = '+ package_name +'.human_detector:main',
-            'depth_human_detector = '+ package_name +'.depth_human_detector:main',
+            'tdmpc_social_navigation = '+ package_name +'.tdmpc_social_navigation:main',
         ],
     },
 )

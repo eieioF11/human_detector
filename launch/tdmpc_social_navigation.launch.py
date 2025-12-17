@@ -14,14 +14,13 @@ import launch_ros.actions
 
 
 def generate_launch_description():
-    pkg_dir = get_package_share_directory('human_detector')
+    pkg_dir = get_package_share_directory('tdmpc_social_navigation')
     list = [
         Node(
-            package='human_detector',
-            executable='depth_human_detector',
+            package='tdmpc_social_navigation',
+            executable='tdmpc_social_navigation',
             namespace='',
-            # theta v
-            remappings=[('image_raw', '/thetav/image_raw'),('depth', '/mono_depth/depth')],
+            # remappings=[('image_raw', '/thetav/image_raw')],
             output="screen",
             respawn=True,
         ),

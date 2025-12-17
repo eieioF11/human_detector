@@ -1,0 +1,206 @@
+version: "2.3"
+services:
+
+  # bash
+  bash:
+    container_name: bash
+    image: tdmpc_env:latest
+    network_mode: "host"
+    command: bash -c "bash"
+    working_dir: /root/
+    volumes:
+      - ./:/root/tdmpc_playground
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /dev/bus/usb/:/dev/bus/usb/:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+    environment:
+      - XAUTHORITY=/tmp/.docker.xauth
+      - DISPLAY={$DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
+    privileged: true
+    stdin_open: true
+    tty: true
+
+  bash-gpu:
+    container_name: bash
+    image: tdmpc_env:latest
+    network_mode: "host"
+    runtime: nvidia
+    command: bash -c "bash"
+    working_dir: /root/
+    volumes:
+      - ./:/root/tdmpc_playground
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /dev/bus/usb/:/dev/bus/usb/:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ~/.Xauthority:/root/.Xauthority
+      - ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw
+      - ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw
+      - ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw
+      - ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw
+      - ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw
+      - ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw
+      - ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw
+      - ~/docker/isaac-sim/documents:/root/Documents:rw
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - XAUTHORITY=/tmp/.docker.xauth
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
+      - ACCEPT_EULA=Y
+      - PRIVACY_CONSENT=Y
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    # deploy:
+    #     resources:
+    #         reservations:
+    #             devices:
+    #                 - capabilities: [gpu]
+    privileged: true
+    stdin_open: true
+    tty: true
+
+  bash-ws:
+    container_name: bash-ws
+    image: tdmpc_env:latest
+    network_mode: "host"
+    runtime: nvidia
+    command: bash -c "bash"
+    working_dir: /root/tdmpc_playground
+    volumes:
+      - ./:/root/tdmpc_playground
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /dev/bus/usb/:/dev/bus/usb/:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ~/.Xauthority:/root/.Xauthority
+      - ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw
+      - ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw
+      - ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw
+      - ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw
+      - ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw
+      - ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw
+      - ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw
+      - ~/docker/isaac-sim/documents:/root/Documents:rw
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - XAUTHORITY=/tmp/.docker.xauth
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
+      - ACCEPT_EULA=Y
+      - PRIVACY_CONSENT=Y
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    privileged: true
+    stdin_open: true
+    tty: true
+
+
+  # GPUテスト
+  test-gpu:
+    container_name: test-gpu
+    image: tdmpc_env:latest
+    network_mode: "host"
+    runtime: nvidia
+    command: nvidia-smi
+    working_dir: /root/
+    volumes:
+      - ./:/root/tdmpc_playground
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /dev/bus/usb/:/dev/bus/usb/:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ~/.Xauthority:/root/.Xauthority
+      - ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw
+      - ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw
+      - ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw
+      - ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw
+      - ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw
+      - ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw
+      - ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw
+      - ~/docker/isaac-sim/documents:/root/Documents:rw
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - XAUTHORITY=/tmp/.docker.xauth
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
+      - ACCEPT_EULA=Y
+      - PRIVACY_CONSENT=Y
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    privileged: true
+    stdin_open: true
+    tty: true
+
+  # Isaac
+  isaac-sim:
+    container_name: isaac-sim
+    image: tdmpc_env:latest
+    network_mode: "host"
+    runtime: nvidia
+    command: bash -c "./IsaacLab/_isaac_sim/runapp.sh"
+    working_dir: /root/
+    volumes:
+      - ./:/root/tdmpc_playground
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /dev/bus/usb/:/dev/bus/usb/:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ~/.Xauthority:/root/.Xauthority
+      - ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw
+      - ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw
+      - ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw
+      - ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw
+      - ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw
+      - ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw
+      - ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw
+      - ~/docker/isaac-sim/documents:/root/Documents:rw
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - XAUTHORITY=/tmp/.docker.xauth
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
+      - ACCEPT_EULA=Y
+      - PRIVACY_CONSENT=Y
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    privileged: true
+    stdin_open: true
+    tty: true
+

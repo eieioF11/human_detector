@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"] 
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "td-mpc2-navigation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "==3.11.*"
+dependencies = [
+    "fire>=0.7.0",
+    "gymnasium[all]==0.29.1",
+    "hydra-core>=1.3.2",
+    "numpy>=2.2.5",
+    "pandas>=2.2.3",
+    "requests>=2.32.3",
+    "tensorboard>=2.19.0",
+    "tensordict-nightly==2025.1.1",
+    "torch==2.6.0",
+    "torchrl-nightly==2025.1.1",
+    "wandb>=0.19.9",
+    "ir-sim[all]==2.6.1",
+    "numba>=0.61.2",
+    "scikit-learn>=1.7.1",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "black>=25.1.0",
+    "flake8>=7.2.0",
+    "isort>=6.0.1",
+    "mypy>=1.15.0",
+    "pysen>=0.11.0",
+    "pytest>=8.3.5",
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]

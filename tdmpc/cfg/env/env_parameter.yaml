@@ -1,0 +1,101 @@
+# environment
+display: true
+irsim:
+  figure_pixels: [200, 200]
+  # config_file: "irsim_world_0_ped.yaml"
+  # config_file: "irsim_world_3_ped.yaml"
+  # config_file: "irsim_world_3_ped_dash.yaml"
+  # config_file: "irsim_world_3_ped_rvo.yaml" #
+  # config_file: "irsim_world_3_ped_hrvo.yaml"
+  # config_file: "irsim_world_6_ped.yaml"
+  # config_file: "irsim_world_6_ped_dash.yaml"
+  # config_file: "irsim_world_6_ped_rvo.yaml" # done
+  # config_file: "irsim_world_6_ped_hrvo.yaml"
+  # config_file: "irsim_world_9_ped.yaml"
+  # config_file: "irsim_world_9_ped_dash.yaml"
+  # config_file: "irsim_world_9_ped_rvo.yaml" # done
+  # config_file: "irsim_world_9_ped_hrvo.yaml"
+  # config_file: "irsim_world_12_ped.yaml"
+  # config_file: "irsim_world_12_ped_dash.yaml"
+  # config_file: "irsim_world_12_ped_rvo.yaml" # done
+  # config_file: "irsim_world_12_ped_hrvo.yaml"
+  # config_file: "irsim_world_0_ped_map.yaml"
+  # config_file: "irsim_world_0_ped_random_obstacles.yaml"
+  # Cross
+  # config_file: "irsim_world_8_ped_dash_cross.yaml"
+  config_file: "irsim_world_8_ped_rvo_cross.yaml"
+  # Follow
+  # config_file: "irsim_world_9_ped_dash_follow.yaml"
+  # config_file: "irsim_world_9_ped_rvo_follow.yaml"
+
+world:
+  num: 10 # number of worlds
+  dt: ?? # [s]
+  mode: follow # normal, cross, follow
+
+start:
+  # random_generation: true
+  random_generation: false
+  random_x_range: [5.0, 25.0] # [m]
+  random_y_range: [5.0, 25.0] # [m]
+
+goal:
+  # random_generation: true
+  random_generation: false
+  random_x_range: [5.0, 25.0] # [m]
+  random_y_range: [5.0, 25.0] # [m]
+
+# start:
+#   random_generation: true
+#   # random_generation: false
+#   random_x_range: [5.0, 25.0] # [m]
+#   random_y_range: [3.0, 10.0] # [m]
+
+# goal:
+#   random_generation: true
+#   # random_generation: false
+#   random_x_range: [5.0, 25.0] # [m]
+#   random_y_range: [25.0, 27.0] # [m]
+
+obstacles:
+  # random_position: true
+  random_position: false
+  random_x_range: [5.0, 25.0] # [m]
+  random_y_range: [5.0, 25.0] # [m]
+
+robot:
+  action_space: 2 # v omega
+  observation_space: 102 # 52 # goal 2 + scan 10 +(dynamic obstacles num*4(r theta v w)=40)
+  robot_observation_space: 2 #12
+  # human_observation_space: 10 #40
+  human_observation_space: 100 #40
+  # observation_space: 12 # goal 2 + scan 10
+  state_space: 0
+  dynamic_obstacles_num: 10 # number of dynamic obstacles
+  scan_step_num: 10
+  scan_stack_size: 10
+  action_scale: [3.0, 3.0] # [m/s], [rad/s]
+  # action_scale: [0.7, 0.7, 1.0] # [m/s], [m/s], [rad/s]
+
+limits:
+  distance_max: 20.0 # [m] 90.0
+  distance_min: 0.0 # [m]
+  near_dynamic_obstacle_dist_limit: 2.0 # [m]
+  dynamic_obstacle_vel_max: [3.0, 1.0] # [m/s], [rad/s]
+  dynamic_obstacle_vel_min: [-3.0, -1.0] # [m/s], [rad/s]
+  angular_vel_limit: 0.0 # 0.4
+
+rewards:
+  range_limits: 1.35 # [m] 1.35
+  max_reward: 100.0 # 100.0
+  min_reward: -100.0 # -100.0
+
+rewards_weights:
+  target_distance: 2.0
+  target_arrival: 100.0
+  range_reward: -0.5
+  collision: -100.0
+  timeout: -0.0 # -100.0
+  liner_velocity: 0.0
+  angular_velocity: -0.0 # -0.3
+  near_dynamic_obstacle: -1.0

@@ -1,0 +1,92 @@
+# environment
+display: true
+irsim:
+  figure_pixels: [200, 200]
+  # Cross
+  config_file: "irsim_world_8_ped_dash_cross.yaml"
+  # config_file: "irsim_world_8_ped_sfm_cross.yaml"
+  # config_file: "irsim_world_8_ped_dash-stop_cross.yaml"
+  # config_file: "irsim_world_8_ped_rvo_cross.yaml"
+
+  # config_file: "no_collision/irsim_world_8_ped_dash_cross.yaml"
+  # config_file: "no_collision/irsim_world_8_ped_sfm_cross.yaml"
+
+  # low
+  # config_file: "low/irsim_world_8_ped_dash_cross.yaml"
+  # config_file: "low/irsim_world_8_ped_sfm_cross.yaml"
+  # config_file: "low/irsim_world_8_ped_dash-stop_cross.yaml
+  # config_file: "low/irsim_world_8_ped_rvo_cross.yaml"
+
+  # old
+  # config_file: "old/irsim_world_8_ped_dash_cross.yaml"
+  # config_file: "old/irsim_world_8_ped_sfm_cross.yaml"
+  # config_file: "old/irsim_world_8_ped_dash-stop_cross.yaml"
+  # config_file: "old/irsim_world_8_ped_rvo_cross.yaml"
+
+world:
+  num: 10 # number of worlds
+  dt: ?? # [s]
+  mode: cross # normal, cross, follow
+
+start:
+  random_generation: true
+  # random_generation: false
+  random_x_range: [13.0, 17.0] # [m]
+  random_y_range: [3.0, 5.0] # [m]
+
+goal:
+  random_generation: true
+  # random_generation: false
+  random_x_range: [13.0, 17.0] # [m]
+  random_y_range: [25.0, 27.0] # [m]
+
+
+obstacles:
+  # random_position: true
+  random_position: false
+  random_x_range: [5.0, 25.0] # [m]
+  random_y_range: [5.0, 25.0] # [m]
+
+robot:
+  action_space: 2 # v omega
+  observation_space: 68 #152 # 52 # goal 2 + scan 10 +(dynamic obstacles num*4(r theta v w)=40)
+  robot_observation_space: 28 #2 #12
+  # human_observation_space: 10 #40
+  human_observation_space: 40
+  # observation_space: 12 # goal 2 + scan 10
+  h_obs_vel_dim: 16
+  state_space: 0
+  dynamic_obstacles_num: 8 #10 # number of dynamic obstacles
+  scan_step_num: 25
+  scan_stack_size: 6 #10
+  # action_scale: [3.0, 3.0] # [m/s], [rad/s]
+  # action_scale: [2.0, 3.0] # [m/s], [rad/s]
+  action_scale: [1.0, 3.14] # [m/s], [rad/s]
+  # action_scale: [0.7, 1.0] # [m/s], [rad/s]
+
+limits:
+  distance_max: 20.0 # [m] 90.0
+  distance_min: 0.0 # [m]
+  near_dynamic_obstacle_dist_limit: 1.35 # [m]  2.0
+  dynamic_obstacle_vel_max: [1.0, 3.14] # [m/s], [rad/s]
+  dynamic_obstacle_vel_min: [-1.0, -3.14] # [m/s], [rad/s]
+  angular_vel_limit: 0.4 # 0.4
+
+rewards:
+  range_limits: 1.35 # [m] 1.35
+  max_reward: 100.0 # 100.0
+  min_reward: -100.0 # -100.0
+
+rewards_weights:
+  target_distance: 1.0
+  target_arrival: 100.0
+  range_reward: -0.5
+  collision: -100.0
+  timeout: -0.0 # -100.0
+  liner_velocity: 0.1
+  angular_velocity: -0.1 # -0.3
+  # near_dynamic_obstacle: -0.0 # -1.0
+  near_dynamic_obstacle: -0.5 # -1.0
+  fov: -0.0
+  # fov: -0.5
+  # fov: -1.5
